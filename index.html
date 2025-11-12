@@ -51,7 +51,7 @@ footer{margin-top:18px;text-align:center;color:var(--muted);font-size:12px}
 </div>
 <div class="legend" id="legend"></div>
 <div class="downloads"><button id="downloadPdf" style="margin-top:10px">Download PDF</button></div>
-<div class="small">Tip: Beweeg over een sector voor de details.</div>
+<div class="small">Beweeg over een sector voor de details.</div>
 </div>
 </div>
 <footer class="small"></footer>
@@ -85,9 +85,6 @@ form.appendChild(div);
 const showBtn=document.createElement('button'); showBtn.type='button'; showBtn.textContent='Toon resultaat'; showBtn.style.marginTop='10px'; form.appendChild(showBtn);
 
 const resetBtn=document.createElement('button'); resetBtn.type='button'; resetBtn.className='secondary'; resetBtn.textContent='Reset'; resetBtn.onclick=()=>{form.reset();chart.data.labels=[];chart.data.datasets[0].data=[];chart.update();document.getElementById('legend').innerHTML='';}; form.appendChild(resetBtn);
-
-Chart.Tooltip.positioners.topCenter = function(elements, eventPosition, tooltip) {const chart = tooltip.chart;const chartArea = chart.chartArea;const xCenter = (chartArea.left + chartArea.right) / 2;const yTop = chartArea.top + 20;return { x: xCenter, y: yTop };
-};
 
 const ctx=document.getElementById('chart').getContext('2d');
 const chart=new Chart(ctx,{type:'polarArea',data:{labels:[],datasets:[{data:[],backgroundColor:[],borderColor:[],borderWidth:0.6,fullQuestions:[]} ] },options:{responsive:true,maintainAspectRatio:true,plugins:{legend:{display:false},tooltip:{callbacks:{label:function(ctx){return ctx.dataset.fullQuestions[ctx.dataIndex]+' — score: '+ctx.formattedValue;}}}},scales:{r:{min:0,max:5,ticks:{stepSize:1}}}}});
