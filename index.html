@@ -18,8 +18,8 @@ form .cluster{border:1px dashed #eee;padding:8px;border-radius:8px;margin-bottom
 .cluster h3{margin:0 0 6px 0;font-size:14px}
 .q{display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #fafafa}
 .q:last-child{border-bottom:none}
-.q label{flex:1;font-size:13px}
-.radios{display:flex;gap:6px}
+.q label{flex:1 1 60%; font-size:13px; word-break: break-word;}
+.radios{flex:0 0 auto; display:flex; gap:6px;}
 input[type=radio]{transform:scale(1.05)}
 .actions{display:flex;gap:8px;margin-top:10px}
 button{background:var(--accent);color:#fff;border:none;padding:8px 12px;border-radius:8px;cursor:pointer}
@@ -64,7 +64,7 @@ const clusters=[
 {name:'Groei',questions:['Ik heb voldoende kansen om mezelf te ontwikkelen in mijn functie.','Ik leer regelmatig nieuwe dingen die mij helpen in mijn werk.','Mijn leidinggevende stimuleert mijn professionele groei.','Ik weet welke ontwikkelmogelijkheden er zijn binnen de organisatie.','Ik heb een duidelijk beeld van mijn loopbaanrichting of doelen.','Ik krijg voldoende ondersteuning om mijn leer- en ontwikkelbehoeften vorm te geven.','Ik heb vertrouwen in mijn toekomstperspectief binnen de organisatie.','Ik voel me gestimuleerd om mijn sterktes en competenties verder te ontwikkelen.','Ik krijg voldoende ruimte om te experimenteren en te leren.','Mijn werk biedt mij kansen om door te groeien als ik dat wil.'],keywords:['KANSEN','LEREN','STIMULEREN','LEERMOGELIJKHEDEN','LOOPBAANRICHTING','BEHOEFTEN','TOEKOMSTPERSPECTIEF','ONTWIKKELEN','EXPERIMENTEREN','DOORGROEIEN']},
 {name:'Verbinding',questions:['Ik voel me betrokken bij mijn team en collega’s.','Ik ervaar voldoende waardering en erkenning voor mijn werk.','Ik voel me verbonden met de doelen en waarden van de organisatie.','Ik voel mij veilig om open te praten met mijn leidinggevende.','Er wordt binnen mijn organisatie op een open en transparante manier gecommuniceerd.','Ik ervaar een goede samenwerking met mijn directe collega’s.','Er is onderling vertrouwen binnen mijn team.','Ik voel me onderdeel van het grotere geheel binnen de organisatie.','Ik krijg voldoende feedback over mijn functioneren.','Ik voel me gewaardeerd als persoon, niet alleen om wat ik doe.'],keywords:['BETROKKEN','ERKENNING','VERBONDEN','VEILIG','COMMUNICATIE','SAMENWERKING','VERTROUWEN','GEHEEL','FEEDBACK','WAARDERING']}
 ];
-const clusterColors={'Werkbaarheid':'rgba(59,130,246,0.9)','Inzetbaarheid':'rgba(16,185,129,0.9)','Groei':'rgba(236,72,153,0.9)','Verbinding':'rgba(249,115,22,0.9)'};
+const clusterColors={'Werkbaarheid':'rgba(20,200,208,0.9)','Inzetbaarheid':'rgba(254,218,123,0.9)','Groei':'rgba(160,233,149,0.9)','Verbinding':'rgba(248,97,129,0.9)'};
 
 const form=document.getElementById('survey');
 clusters.forEach(cl=>{
@@ -98,6 +98,7 @@ return {labels,data,bg,border,fullQ};
 showBtn.onclick=()=>{
 const ds=buildDataset(); if(!ds) return;
 chart.data.labels=ds.labels; chart.data.datasets[0].data=ds.data; chart.data.datasets[0].backgroundColor=ds.bg; chart.data.datasets[0].borderColor=ds.border; chart.data.datasets[0].fullQuestions=ds.fullQ; chart.update();
+document.getElementById('chart').scrollIntoView({ behavior: 'smooth', block: 'start' });
 const legend=document.getElementById('legend'); legend.innerHTML=''; for(const key of Object.keys(clusterColors)){const it=document.createElement('div'); it.className='item'; const box=document.createElement('span'); box.className='colorbox'; box.style.background=clusterColors[key]; it.appendChild(box); it.appendChild(document.createTextNode(key)); legend.appendChild(it);}
 };
 
@@ -158,7 +159,8 @@ doc.setFontSize(12);
 doc.text("Legenda", 20, 200);
 let ly = 210;
 Object.entries(clusterColors).forEach(([key, color]) => {
-doc.setFillColor(...color.match(/\d+/g).map(Number));
+const rgb = color.match(/\d+/g).slice(0,3).map(Number);
+doc.setFillColor(...rgb);
 doc.rect(20, ly - 5, 5, 5, 'F');
 doc.text(key, 30, ly);
 ly += 8;
