@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
-<title>Vragenlijst — Polar Area Chart</title>
+<title>Vragenlijst Duurzame loopbaan</title>
 <style>
 :root{--bg:#f7f8fb;--card:#fff;--muted:#666;--accent:#2b6cb0;font-family:Inter, Roboto, Arial, sans-serif}
 body{margin:0;background:var(--bg);color:#1a202c}
@@ -38,8 +38,8 @@ footer{margin-top:18px;text-align:center;color:var(--muted);font-size:12px}
 <body>
 <div class="container">
 <header>
-<h1>Vragenlijst — Polar Area Chart</h1>
-<p class="lead">Vul de vragen in en klik op "Toon resultaat". De grafiek wordt direct gegenereerd. Download de grafiek en de antwoorden (PDF).</p>
+<h1>Vragenlijst Duurzame loopbaan</h1>
+<p class="lead">Vul de vragen in en klik op "Toon resultaat". De visuele voorstelling wordt direct gegenereerd. Download het rapport als pdf.</p>
 </header>
 <div class="grid">
 <div class="card">
@@ -51,10 +51,10 @@ footer{margin-top:18px;text-align:center;color:var(--muted);font-size:12px}
 </div>
 <div class="legend" id="legend"></div>
 <div class="downloads"><button id="downloadPdf" style="margin-top:10px">Download PDF</button></div>
-<div class="small">Tip: hover over een sector voor de details.</div>
+<div class="small">Tip: Beweeg over een sector voor de details.</div>
 </div>
 </div>
-<footer class="small">Gegenereerd door jouw interactieve polar area survey — open het bestand in een browser (dubbelklik op .html).</footer>
+<footer class="small"></footer>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
@@ -85,6 +85,9 @@ form.appendChild(div);
 const showBtn=document.createElement('button'); showBtn.type='button'; showBtn.textContent='Toon resultaat'; showBtn.style.marginTop='10px'; form.appendChild(showBtn);
 
 const resetBtn=document.createElement('button'); resetBtn.type='button'; resetBtn.className='secondary'; resetBtn.textContent='Reset'; resetBtn.onclick=()=>{form.reset();chart.data.labels=[];chart.data.datasets[0].data=[];chart.update();document.getElementById('legend').innerHTML='';}; form.appendChild(resetBtn);
+
+Chart.Tooltip.positioners.topCenter = function(elements, eventPosition, tooltip) {const chart = tooltip.chart;const chartArea = chart.chartArea;const xCenter = (chartArea.left + chartArea.right) / 2;const yTop = chartArea.top + 20;return { x: xCenter, y: yTop };
+};
 
 const ctx=document.getElementById('chart').getContext('2d');
 const chart=new Chart(ctx,{type:'polarArea',data:{labels:[],datasets:[{data:[],backgroundColor:[],borderColor:[],borderWidth:0.6,fullQuestions:[]} ] },options:{responsive:true,maintainAspectRatio:true,plugins:{legend:{display:false},tooltip:{callbacks:{label:function(ctx){return ctx.dataset.fullQuestions[ctx.dataIndex]+' — score: '+ctx.formattedValue;}}}},scales:{r:{min:0,max:5,ticks:{stepSize:1}}}}});
@@ -122,7 +125,7 @@ const { jsPDF } = window.jspdf;
 const doc = new jsPDF();
 
 doc.setFontSize(14);
-doc.text("Resultaten Vragenlijst", 20, 20);
+doc.text("Resultaat vragenlijst duurzame loopbaan", 20, 20);
 
 let y = 30;
 clusters.forEach((cl) => {
@@ -151,7 +154,7 @@ const chartCanvas = document.getElementById('chart');
 const chartImage = chartCanvas.toDataURL("image/png");
 doc.addPage();
 doc.setFontSize(12);
-doc.text("Polar Area Chart", 20, 20);
+doc.text("Visuele voorstelling", 20, 20);
 doc.addImage(chartImage, "PNG", 20, 30, 160, 160);
 
 // Add legend
@@ -166,7 +169,7 @@ doc.text(key, 30, ly);
 ly += 8;
 });
 
-doc.save("vragenlijst_resultaten.pdf");
+doc.save("Resultaat vragenlijst duurzame loopbaan.pdf");
 });
 </script>
 </body>
